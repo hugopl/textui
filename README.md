@@ -1,57 +1,32 @@
-[![Build Status](https://travis-ci.org/hugopl/queryit.svg?branch=master)](https://travis-ci.org/hugopl/queryit)
-[![AUR](https://img.shields.io/aur/version/queryit)](https://aur.archlinux.org/packages/queryit)
+[![Build Status](https://travis-ci.org/hugopl/textui.svg?branch=master)](https://travis-ci.org/hugopl/textui)
 
-# Queryit
+# TextUI
 
-A very basic setupless terminal based SQL query runner meant to be used as a developer
-tool to test queries against a project database.
+A simple [Crystal](https://https://crystal-lang.org/) UI framework for terminal interfaces backed by [termbox](https://github.com/nsf/termbox).
 
-![Screenshot](./doc/queryit.png)
+**It still in a pre-alpha state**, API is not stable at all and this shard exists mainly because I'm using this lib in more than one project. In fact the repository is a fork from [QueryIt](https://github.com/hugopl/queryit), the original project were it was born.
+
+So if you are brave enough to add this shard as a dependency into your project I suggest to use the `commit: ...` attribute into the textui dependency entry on your shard.yml.
 
 ## Installation
 
-### if ArchLinux
+1. Add the dependency to your `shard.yml`:
 
-There's an [AUR package](https://aur.archlinux.org/packages/queryit/) for it.
+   ```yaml
+   dependencies:
+     textui:
+       github: hugopl/textui
+   ```
 
-```
-$ yay -S queryit
-```
-
-### else
-
-You need the project dependencies installed on your system:
-
- * Termbox C library - https://github.com/nsf/termbox
- * Crystal language compiler
- * Shards, the crystal language package manager
-
-```
-$ make
-$ sudo make install
-```
+2. Run `shards install`
 
 ## Usage
 
-On a rails or amber project directory just run it, a connection will be made to the development database:
-
-```
-$ queryit
-```
-
-Or specify the database URI:
-
-```
-$ queryit --uri postgres://localhost/database
-```
-
-## Database support
-
-Despite of only be really tested with Postgres and SQLite, it should work with MySQL too.
+Example soon...
 
 ## Contributing
 
-1. Fork it (<https://github.com/hugopl/queryit/fork>)
+1. Fork it (<https://github.com/hugopl/textui/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
