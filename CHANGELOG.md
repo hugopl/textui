@@ -1,3 +1,10 @@
-## Unreleased
+## [0.1.0] - 2020-01-09
 ### Added
-- Added simple text alignment to Label widget, simple because it only works on single line labels.
+- First release as a separated shard, current widgets inherited from Queryit:
+ - Box
+ - Label
+ - List
+ - Table
+ - StatusBar
+ - TextEditor
+ - Dialog
