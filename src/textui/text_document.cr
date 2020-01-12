@@ -75,6 +75,12 @@ module TextUi
       end
     end
 
+    def save
+      File.open(@filename, "w") do |io|
+        save(io)
+      end
+    end
+
     def contents
       @blocks.map(&.text).join("\n")
     end
