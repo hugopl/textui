@@ -44,9 +44,9 @@ module TextUi
 
   class TextDocument
     getter blocks : Array(TextBlock)
+    property filename = ""
 
     @blocks = [] of TextBlock
-    @filename = ""
     @syntax_highlighter = PlainTextSyntaxHighlighter.new
 
     def initialize
