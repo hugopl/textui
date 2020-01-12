@@ -41,4 +41,30 @@ describe TextUi::StackedWidget do
     label2.width.should eq(5)
     label2.height.should eq(2)
   end
+
+  it "cycle widgets" do
+    ui = init_ui(10, 2)
+    stack = TextUi::StackedWidget.new(ui)
+    label1 = TextUi::Label.new(stack, "Hey")
+    label2 = TextUi::Label.new(stack, "Ho")
+    label3 = TextUi::Label.new(stack, "Let's Go!")
+
+    stack.cycle
+    stack.current_index.should eq(1)
+    label1.visible?.should eq(false)
+    label2.visible?.should eq(true)
+    label3.visible?.should eq(false)
+
+    stack.cycle
+    stack.current_index.should eq(2)
+    label1.visible?.should eq(false)
+    label2.visible?.should eq(false)
+    label3.visible?.should eq(true)
+
+    stack.cycle
+    stack.current_index.should eq(0)
+    label1.visible?.should eq(true)
+    label2.visible?.should eq(false)
+    label3.visible?.should eq(false)
+  end
 end

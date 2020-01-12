@@ -14,6 +14,16 @@ module TextUi
       @current_index = index
     end
 
+    def current_widget
+      @children[@current_index]
+    end
+
+    def cycle
+      next_index = @current_index + 1
+      next_index = 0 if next_index >= @children.size
+      self.current_index = next_index
+    end
+
     def <<(child : Widget)
       child.visible = false unless @children.size.zero?
       super
