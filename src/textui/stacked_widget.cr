@@ -6,12 +6,18 @@ module TextUi
       super
     end
 
-    def current_index=(index)
+    def current_index=(index : Int32)
       return if index == @current_index
 
       @children[index].visible = true
       @children[@current_index].visible = false
       @current_index = index
+      current_widget.invalidate
+    end
+
+    def current_widget=(widget : Widget)
+      idx = children.index(widget)
+      self.current_index = idx unless idx.nil?
     end
 
     def current_widget

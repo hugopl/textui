@@ -85,6 +85,10 @@ module TextUi
       @blocks.map(&.text).join("\n")
     end
 
+    def first_line
+      @blocks.first.text
+    end
+
     def insert(line : Int32, text : String) : Nil
       previous_line = line - 1
       block = TextBlock.new(self, text, block?(previous_line), block?(line))

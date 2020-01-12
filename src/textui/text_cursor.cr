@@ -47,12 +47,15 @@ module TextUi
 
       if event.key == KEY_INSERT
         @insert_mode = !@insert_mode
+        event.accept
       else
-        handle_text_modification(event.char, event.key, current_block)
+        handle_text_modification(event, current_block)
       end
     end
 
-    def handle_text_modification(chr, key, block) : Nil
+    private def handle_text_modification(event, block) : Nil
+      chr = event.char
+      key = event.key
       buffer = block.text
 
       if key == KEY_SPACE
@@ -74,6 +77,7 @@ module TextUi
           buffer = buffer.insert(@col, chr)
         end
         @col += 1
+        event.accept
       elsif key == KEY_BACKSPACE || key == KEY_BACKSPACE2
         if @col == 0 && @line > 0
           previous_block = @document.blocks[@line - 1]
@@ -88,6 +92,7 @@ module TextUi
           end
           @col -= 1
         end
+        event.accept
       elsif key == KEY_DELETE
         if @col == buffer.size && @document.blocks.size > @line + 1
           next_line = @line + 1
@@ -100,6 +105,7 @@ module TextUi
             str << buffer[(@col + 1)..-1]
           end
         end
+        event.accept
       end
       block.text = buffer
       @col_hint = @col

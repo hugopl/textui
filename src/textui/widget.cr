@@ -30,6 +30,10 @@ module TextUi
       end
     end
 
+    def focus
+      ui.focus(self)
+    end
+
     def destroy
       parent.children.delete(self)
     end

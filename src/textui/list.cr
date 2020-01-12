@@ -1,12 +1,12 @@
 module TextUi
   class List < Widget
-    property items
+    getter items
     getter cursor : Int32
+    getter selected_index = -1
     setter on_select : Proc(String, Nil)?
 
     property focused_format : Format
 
-    @selected_item = -1
     @cursor = 0
     @viewport = 0
     @focused_format = Format.new(Color::Silver).reverse
@@ -29,15 +29,23 @@ module TextUi
     def select(item_idx : Int32) : Nil
       return if item_idx < 0 || item_idx >= @items.size
 
-      @selected_item = item_idx
+      @selected_index = item_idx
       self.cursor = item_idx
       invalidate
+    end
+
+    def selected_item
+      @items[@selected_index]?
     end
 
     def cursor=(cursor : Int32) : Nil
       return if cursor < 0
 
       @cursor = cursor
+      invalidate
+    end
+
+    def items=(@items)
       invalidate
     end
 
@@ -54,7 +62,7 @@ module TextUi
         limit = width - 1
         format = item_idx == @cursor && focused? ? @focused_format : default_format
 
-        arrow = item_idx == @selected_item ? '🠺' : ' '
+        arrow = item_idx == @selected_index ? '🠺' : ' '
         print_char(0, i, arrow, default_format)
 
         if (i == 0 && has_scrollup) || (has_scrolldown && i == height - 1)
@@ -74,9 +82,9 @@ module TextUi
       when KEY_ARROW_UP   then @cursor -= 1
       when KEY_ARROW_DOWN then @cursor += 1
       when KEY_ENTER
-        @selected_item = @cursor
+        @selected_index = @cursor
         on_select = @on_select
-        on_select.call(@items[@selected_item]) if on_select
+        on_select.call(@items[@selected_index]) if on_select
       else
         return
       end
