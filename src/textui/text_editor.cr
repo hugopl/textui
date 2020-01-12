@@ -9,6 +9,7 @@ module TextUi
 
     delegate open, to: @document
     delegate save, to: @document
+    delegate filename, to: @document
     delegate :syntax_highlighter=, to: @document
 
     Cute.signal key_typed(event : KeyEvent)
