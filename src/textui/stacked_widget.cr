@@ -2,7 +2,7 @@ module TextUi
   class StackedWidget < Widget
     getter current_index = 0
 
-    def initialize(parent)
+    def initialize(parent, x = 0, y = 0)
       super
     end
 
