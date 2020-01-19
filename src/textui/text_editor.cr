@@ -7,8 +7,9 @@ module TextUi
     # Colors
     property border_color : Format
 
-    delegate open, to: @document
-    delegate save, to: @document
+    property filename = "untitled"
+
+    delegate save(io: IO), to: @document
     delegate filename, to: @document
     delegate :syntax_highlighter=, to: @document
 
@@ -30,6 +31,15 @@ module TextUi
     def invalidate
       super
       @block_heights = [] of Int32
+    end
+
+    def open(filename : String)
+      self.filename = filename
+      @document.open(filename)
+    end
+
+    def save
+      @document.save(filename)
     end
 
     def show_line_numbers=(value : Bool) : Nil

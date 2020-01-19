@@ -1,3 +1,7 @@
+## Unreleased
+### Fix
+- Remove TextDocument#filename, it was moved to TextEditor#filename.
+
 ## [0.1.0] - 2020-01-09
 ### Added
 - First release as a separated shard, current widgets inherited from Queryit:

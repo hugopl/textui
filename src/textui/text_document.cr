@@ -44,7 +44,6 @@ module TextUi
 
   class TextDocument
     getter blocks : Array(TextBlock)
-    property filename = ""
 
     @blocks = [] of TextBlock
     @syntax_highlighter = PlainTextSyntaxHighlighter.new
@@ -64,8 +63,8 @@ module TextUi
       reset_syntaxhighlighting
     end
 
-    def open(@filename : String)
-      self.contents = File.read(@filename)
+    def open(filename : String)
+      self.contents = File.read(filename)
     end
 
     def save(io : IO)
@@ -75,8 +74,8 @@ module TextUi
       end
     end
 
-    def save
-      File.open(@filename, "w") do |io|
+    def save(filename : String)
+      File.open(filename, "w") do |io|
         save(io)
       end
     end
