@@ -43,10 +43,12 @@ module TextUi
     # First line is considered the header
     def set_data(rows : Array(Array(String))) : Nil
       @column_names = rows.shift
+      @column_widths.clear
       @rows = rows
 
       @cursor_x = 0
       @cursor_y = 0
+      invalidate
     end
 
     def render

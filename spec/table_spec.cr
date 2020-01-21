@@ -4,8 +4,7 @@ describe TextUi::Table do
   it "moves view port to right when needed" do
     ui = init_ui(12, 2)
     table = TextUi::Table.new(ui)
-    table.width = ui.width
-    table.height = ui.height
+    table.resize(12, 2)
     ui.focus(table)
 
     table.set_data([%w(ABCD EFGH IJKL MNOP QRST),
@@ -56,5 +55,26 @@ describe TextUi::Table do
     table.cursor_x.should eq(0)
     Terminal.to_s.should eq("ABCD EFGH I…\n" \
                             "abcd efgh i…\n")
+  end
+
+  it "clean screen garbage when rendering" do
+    ui = init_ui(10, 4)
+    table = TextUi::Table.new(ui)
+    table.resize(10, 4)
+    table.set_data([%w(Col0 Col1 Col4),
+                    %w(row1 row1 row1),
+                    %w(row2 row2 row2),
+                    %w(row3 row3 row3)])
+    ui.render
+    Terminal.to_s.should eq("Col0 Col1 \n" \
+                            "row1 row1 \n" \
+                            "row2 row2 \n" \
+                            "row3 row3 \n")
+    table.set_data([%w(A), %w(a)])
+    ui.render
+    Terminal.to_s.should eq("A         \n" \
+                            "a         \n" \
+                            "          \n" \
+                            "          \n")
   end
 end

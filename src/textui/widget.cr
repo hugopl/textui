@@ -69,10 +69,8 @@ module TextUi
     end
 
     def erase
-      width.times do |x|
-        height.times do |y|
-          print_char(x, y, ' ', @default_format)
-        end
+      height.times do |y|
+        clear_line(y)
       end
     end
 
