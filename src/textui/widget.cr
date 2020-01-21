@@ -100,6 +100,14 @@ module TextUi
       @parent.absolute_height + @height
     end
 
+    def clear_line(y : Int32, format = @default_format)
+      x = absolute_x
+      y += absolute_y
+      width.times do |offset|
+        Terminal.change_cell(x + offset, y, ' ', format)
+      end
+    end
+
     def print_line(x : Int32, y : Int32, text : String,
                    format : Array(Format) | Format = @default_format,
                    offset = 0,

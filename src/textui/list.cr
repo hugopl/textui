@@ -72,6 +72,12 @@ module TextUi
 
         print_line(1, i, item, format, width: limit)
       end
+
+      if @items.size < height
+        @items.size.upto(height - 1) do |i|
+          clear_line(i)
+        end
+      end
     end
 
     protected def on_key_event(event : KeyEvent)

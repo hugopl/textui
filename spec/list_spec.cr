@@ -163,4 +163,21 @@ describe TextUi::List do
                             " four\n" \
                             " fi…▼\n")
   end
+
+  it "clean screen garbage when rendering" do
+    ui = init_ui(5, 4)
+    list = TextUi::List.new(ui, 0, 0, %w(one two three four five six))
+    list.resize(5, 4)
+    ui.render
+    Terminal.to_s.should eq(" one \n" \
+                            " two \n" \
+                            " thr…\n" \
+                            " fo…▼\n")
+    list.items = %w(foo bar)
+    ui.render
+    Terminal.to_s.should eq(" foo \n" \
+                            " bar \n" \
+                            "     \n" \
+                            "     \n")
+  end
 end
