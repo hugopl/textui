@@ -14,6 +14,20 @@ describe TextUi::TextEditor do
                             "~                   \n")
   end
 
+  it "do not crash if widget width is too small" do
+    ui = init_ui(2, 2)
+    editor = TextUi::TextEditor.new(ui, 0, 0, 2, 2)
+    editor.focus
+    editor.open("spec/fixtures/10_lines.sql")
+    editor.show_line_numbers = true
+    editor.word_wrap = true
+
+    Terminal.inject_key_event(key: TextUi::KEY_ARROW_DOWN)
+    ui.process_queued_events
+    ui.render
+    Terminal.to_s.should eq("  \n  \n")
+  end
+
   it "invalidates extra cursors when text is replaced" do
     ui = init_ui(20, 6)
     editor = TextUi::TextEditor.new(ui, 0, 0, 20, 6)

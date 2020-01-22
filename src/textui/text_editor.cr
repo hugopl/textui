@@ -15,7 +15,7 @@ module TextUi
 
     Cute.signal key_typed(event : KeyEvent)
 
-    def initialize(parent, x, y, width, height)
+    def initialize(parent, x, y, width = 1, height = 1)
       super
       @document = TextDocument.new
       @cursors = [TextCursor.new(@document)]
@@ -81,6 +81,10 @@ module TextUi
 
     def cursor
       @cursors.first
+    end
+
+    def widget_too_small?
+      width - calc_border_width < 1
     end
 
     def render_cursors

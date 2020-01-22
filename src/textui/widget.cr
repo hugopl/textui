@@ -34,6 +34,12 @@ module TextUi
       @children << child
     end
 
+    # Return true if the widget is too small to be rendered.
+    # If a widget is too small it wont be rendered or receive any input events.
+    def widget_too_small?
+      false
+    end
+
     def focus
       ui.focus(self)
     end
@@ -193,7 +199,7 @@ module TextUi
 
     protected def render_children
       @children.each do |child|
-        if child.render_pending?
+        if child.render_pending? && !child.widget_too_small?
           child.render_pending = false
           child.render if child.visible?
         end

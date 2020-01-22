@@ -81,7 +81,7 @@ module TextUi
       @need_rendering = false
       render_children
       widget = @focused_widget
-      widget.render_cursor if widget
+      widget.render_cursor if widget && !widget.widget_too_small?
     end
 
     def main_loop
@@ -138,7 +138,7 @@ module TextUi
 
       key_typed.emit(event)
       widget = @focused_widget
-      widget.on_key_event(event) if widget && !event.accepted?
+      widget.on_key_event(event) if widget && !event.accepted? && !widget.widget_too_small?
     end
   end
 end
