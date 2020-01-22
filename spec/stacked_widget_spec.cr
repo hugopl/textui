@@ -8,6 +8,15 @@ describe TextUi::StackedWidget do
     label.visible?.should eq(true)
   end
 
+  it "resize children upon insertion" do
+    ui = init_ui(10, 1)
+    stack = TextUi::StackedWidget.new(ui)
+    stack.resize(10, 1)
+    label = TextUi::Label.new(stack, "Hey")
+    label.width.should eq(10)
+    label.height.should eq(1)
+  end
+
   it "have only one visible widget at a time" do
     ui = init_ui(10, 1)
     stack = TextUi::StackedWidget.new(ui)

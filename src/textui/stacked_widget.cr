@@ -37,8 +37,8 @@ module TextUi
     end
 
     def resize(width, height)
+      super
       @children.each(&.resize(width, height))
-      invalidate
     end
 
     def render
