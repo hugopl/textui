@@ -30,13 +30,15 @@ module TextUi
       self.current_index = next_index
     end
 
-    def <<(child : Widget)
-      child.visible = false unless @children.size.zero?
+    protected def <<(child : Widget)
       super
+      child.visible = false if @children.size > 1
+      child.resize(width, height)
     end
 
     def resize(width, height)
       @children.each(&.resize(width, height))
+      invalidate
     end
 
     def render

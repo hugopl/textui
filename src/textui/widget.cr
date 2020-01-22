@@ -8,7 +8,6 @@ module TextUi
     property? visible : Bool
     property? focused : Bool
 
-    delegate :<<, to: @children
     getter children
     getter parent
     protected property? render_pending
@@ -28,6 +27,11 @@ module TextUi
         return parent if parent.is_a?(Ui)
         parent = parent.parent
       end
+    end
+
+    protected def <<(child : Widget)
+      raise "Bad parent!" if child.parent != self
+      @children << child
     end
 
     def focus
