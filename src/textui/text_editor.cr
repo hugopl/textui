@@ -14,6 +14,7 @@ module TextUi
     delegate :syntax_highlighter=, to: @document
 
     Cute.signal key_typed(event : KeyEvent)
+    Cute.signal cursor_changed(cursor : TextUi::TextCursor)
 
     def initialize(parent, x, y, width = 1, height = 1)
       super
@@ -295,6 +296,7 @@ module TextUi
       end
       cursor.col_hint = col
       cursor.move(line, col)
+      cursor_changed.emit(cursor)
     end
 
     private def line_increment_by_key(key)
@@ -322,6 +324,7 @@ module TextUi
       width_available = width - border_width
       col = {col, cursor.col_hint}.max if cursor.current_block.size < width_available
       cursor.move(line, col)
+      cursor_changed.emit(cursor)
     end
 
     private def adjust_viewport
