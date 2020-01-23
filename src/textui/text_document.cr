@@ -108,6 +108,10 @@ module TextUi
       @blocks.delete_at(line)
     end
 
+    def replace(line : Int32, text : String)
+      @blocks[line].text = text
+    end
+
     def block?(line) : TextBlock?
       line < 0 ? nil : @blocks[line]?
     end

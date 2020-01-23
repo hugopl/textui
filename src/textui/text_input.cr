@@ -1,6 +1,7 @@
 module TextUi
   class TextInput < Widget
     property place_holder = ""
+    property place_holder_format = Format.new(Color::Grey15)
 
     @document = TextDocument.new
 
@@ -12,18 +13,25 @@ module TextUi
       @cursor = TextCursor.new(@document)
     end
 
-    def render
-      # TODO Adjust viewport
-      text = @place_holder
-      if @document.first_line.empty? && !focused?
-        format = Format.new(Color::Grey15)
-      else
-        text = @document.first_line
-        format = default_format
-      end
+    def render_cursor
+      set_cursor(@cursor.col, 0)
+    end
 
-      print_line(0, 0, text, format, width: width)
-      set_cursor(@cursor.col, 0) if focused?
+    def render
+      return render_place_holder if text.empty?
+
+      print_line(0, 0, text, width: width)
+    end
+
+    private def render_place_holder
+      # We print first character empty, so the cursor gets more attention in the default color.
+      print_char(0, 0, ' ')
+      print_line(1, 0, @place_holder, @place_holder_format, width: width - 1)
+    end
+
+    def text=(value : String)
+      @document.replace(0, value)
+      invalidate
     end
 
     def text
@@ -31,7 +39,7 @@ module TextUi
     end
 
     def clear
-      @document.blocks.first.text = ""
+      @document.replace(0, "")
     end
 
     protected def on_key_event(event : KeyEvent)
