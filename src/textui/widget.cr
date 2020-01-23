@@ -5,12 +5,12 @@ module TextUi
     property width
     property height
     property default_format : Format
-    property? visible : Bool
+    getter? visible : Bool
     property? focused : Bool
 
     getter children
     getter parent
-    protected property? render_pending
+    property? render_pending
 
     def initialize(@parent : Widget, @x = 0, @y = 0, @width = 1, @height = 1)
       @default_format = Format.new(Color::Silver)
@@ -32,6 +32,11 @@ module TextUi
     protected def <<(child : Widget)
       raise "Bad parent!" if child.parent != self
       @children << child
+    end
+
+    def visible=(visible : Bool)
+      invalidate if !@visible && visible
+      @visible = visible
     end
 
     # Return true if the widget is too small to be rendered.

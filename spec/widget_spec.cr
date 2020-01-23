@@ -1,6 +1,18 @@
 require "./spec_helper"
 
 describe TextUi::Widget do
+  it "invalidate widget if visible attribute turns true" do
+    ui = init_ui(4, 1)
+    label = TextUi::Label.new(ui)
+    label.resize(4, 1)
+    ui.render
+    label.render_pending?.should eq(false)
+    label.visible = false
+    label.render_pending?.should eq(false)
+    label.visible = true
+    label.render_pending?.should eq(true)
+  end
+
   context "when printing strings" do
     it "obey alignment on line feed" do
       ui = init_ui(12, 3)
