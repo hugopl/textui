@@ -14,6 +14,29 @@ describe TextUi::TextEditor do
                             "~                   \n")
   end
 
+  it "replace TAB by n-spaces" do
+    ui = init_ui(20, 2)
+    editor = TextUi::TextEditor.new(ui, 0, 0, 20, 2)
+    editor.tab_width = 5
+    editor.focus
+    Terminal.inject_key_event(key: TextUi::KEY_TAB)
+    Terminal.inject_key_event('A')
+    ui.process_queued_events
+    ui.render
+    Terminal.to_s.should eq("     A              \n" \
+                            "~                   \n")
+  end
+
+  # FIXME: Add support for TAB character... Makefiles still being used by people, including me!
+  it "render a TAB character as a ugly arrow" do
+    ui = init_ui(20, 2)
+    editor = TextUi::TextEditor.new(ui, 0, 0, 20, 2)
+    editor.text = "\tTab"
+    ui.render
+    Terminal.to_s.should eq("➔Tab                \n" \
+                            "~                   \n")
+  end
+
   it "do not crash if widget width is too small" do
     ui = init_ui(2, 2)
     editor = TextUi::TextEditor.new(ui, 0, 0, 2, 2)

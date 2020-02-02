@@ -144,6 +144,8 @@ module TextUi
           chr = '↵'
         elsif chr == '\r'
           chr = '␍'
+        elsif chr == '\t' # We don't support TAB character, just to make things simpler.
+          chr = '➔'
         end
         fmt = format.is_a?(Format) ? format.as(Format) : format.as(Array(Format))[char_idx]? || Format::DEFAULT
         Terminal.change_cell(x + i, y, chr, fmt)

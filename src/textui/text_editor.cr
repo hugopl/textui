@@ -4,6 +4,9 @@ module TextUi
     getter cursors : Array(TextCursor)
     getter? show_line_numbers : Bool
     getter? word_wrap : Bool
+    # Tab key will be replaced by this number of spaces, a number <= 0 means to not recognize tab key.
+    property tab_width : Int32 = 2
+
     # Colors
     property border_color : Format
 
@@ -258,7 +261,12 @@ module TextUi
     protected def on_key_event(event : KeyEvent)
       return if event.alt?
 
-      if is_cursor_movement?(event.key)
+      if event.key == KEY_TAB && @tab_width > 0
+        @tab_width.times do
+          on_key_event(KeyEvent.new(' '))
+        end
+        event.accept
+      elsif is_cursor_movement?(event.key)
         @cursors.each { |cursor| handle_cursor_movement(cursor, event.key) }
       else
         @cursors.each &.on_key_event(event)
