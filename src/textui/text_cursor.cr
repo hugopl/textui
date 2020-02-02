@@ -67,6 +67,7 @@ module TextUi
         @line += 1
         @document.insert(@line, new_line)
         @col = 0
+        event.accept
         return
       end
 
