@@ -62,7 +62,9 @@ module TextUi
     end
 
     def children_focused?
-      children.any?(&.focused?)
+      children.any? do |child|
+        child.focused? || child.children_focused?
+      end
     end
 
     def clear_text(x, y, text : String, format : Format = @default_format, stop_on_lf = false)

@@ -1,3 +1,7 @@
+## Unreleased
+### Fix
+- Fix Widget#children_focused? to return true on grandchildren.
+
 ## [0.1.1] - 2020-02-02
 ### Fix
 - Remove TextDocument#filename, it was moved to TextEditor#filename.

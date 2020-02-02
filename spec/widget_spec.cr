@@ -13,6 +13,20 @@ describe TextUi::Widget do
     label.render_pending?.should eq(true)
   end
 
+  it "children_focused? returns true on gran...granchildren" do
+    ui = init_ui(4, 1)
+    box1 = TextUi::Label.new(ui)
+    box2 = TextUi::Label.new(box1)
+    box3 = TextUi::Label.new(box2)
+    box4 = TextUi::Label.new(box3)
+    box4.focus
+
+    ui.children_focused?.should eq(true)
+    box1.children_focused?.should eq(true)
+    box2.children_focused?.should eq(true)
+    box3.children_focused?.should eq(true)
+  end
+
   context "when printing strings" do
     it "obey alignment on line feed" do
       ui = init_ui(12, 3)
