@@ -12,7 +12,7 @@ module TextUi
     getter key : UInt16
     getter alt : UInt8
 
-    def initialize(@char = '\0', @key = 0, @alt = 0)
+    def initialize(@char = '\0', @key = 0_u16, @alt = 0_u8)
     end
 
     def alt?
