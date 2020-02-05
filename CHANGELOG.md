@@ -1,4 +1,4 @@
-## Unreleased
+## [0.1.2] - 2020-02-05
 ### Fix
 - Fix Widget#children_focused? to return true on grandchildren.
 
