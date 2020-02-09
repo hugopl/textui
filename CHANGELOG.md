@@ -2,6 +2,9 @@
 ### Added
 - Added UndoStack and UndoCommand classes for a undo/redo implementations.
 
+### Fix
+- All KEY_* constants are now u16 to match with key attribute of Event class.
+
 ## [0.1.2] - 2020-02-05
 ### Fix
 - Fix Widget#children_focused? to return true on grandchildren.
