@@ -1,0 +1,62 @@
+module TextUi
+  class UndoStack
+    # If the time between two mergeable commands happen is less than merge_interval, they will be merged into a single command.
+    # merge_interval is specified in milliseconds, default to 1000ms.
+    property merge_interval : Int32 = 1000
+
+    @stack = [] of UndoCommand
+    @index = -1
+    @clean_state_index = -1
+    @last_push : Time::Span?
+
+    delegate size, to: @stack
+
+    def push(cmd : UndoCommand) : Nil
+      cmd.redo
+      return if try_merge(cmd)
+
+      if @index == @stack.size - 1
+        @stack << cmd
+      else
+        @stack[(@index + 1)..-1] = cmd
+        @clean_state_index = -1 if @clean_state_index > @index
+      end
+      @last_push = Time.monotonic
+      @index += 1
+    end
+
+    private def try_merge(cmd) : Bool
+      last_push = @last_push
+      return false if @index < 0 || @merge_interval < 0 || last_push.nil?
+
+      time_lapsed = (Time.monotonic - last_push).milliseconds
+      time_lapsed < @merge_interval && @stack[@index].merge(cmd)
+    end
+
+    def undo : Nil
+      @stack[@index].undo
+      @index -= 1
+    end
+
+    def can_undo?
+      @index >= 0
+    end
+
+    def redo
+      @index += 1
+      @stack[@index].redo
+    end
+
+    def can_redo?
+      @index < @stack.size - 1
+    end
+
+    def set_clean_state
+      @clean_state_index = @index
+    end
+
+    def clean_state?
+      @clean_state_index > 0 && @clean_state_index == @index
+    end
+  end
+end
