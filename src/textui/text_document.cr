@@ -47,9 +47,20 @@ module TextUi
 
     @blocks = [] of TextBlock
     @syntax_highlighter = PlainTextSyntaxHighlighter.new
+    @undo_stack = UndoStack.new
+
+    delegate undo, to: @undo_stack
+    delegate can_undo?, to: @undo_stack
+    delegate redo, to: @undo_stack
+    delegate can_redo?, to: @undo_stack
+    delegate push, to: @undo_stack
 
     def initialize
       @blocks = [TextBlock.new(self)]
+    end
+
+    def undo_stack_merge_interval=(value)
+      @undo_stack.merge_interval = value
     end
 
     def contents=(contents : String) : Nil
@@ -60,6 +71,8 @@ module TextUi
         previous_block = block
       end
       @blocks << TextBlock.new(self) if @blocks.empty?
+
+      @undo_stack.clear
       reset_syntaxhighlighting
     end
 

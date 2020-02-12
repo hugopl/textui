@@ -6,6 +6,8 @@ module TextUi
     getter? word_wrap : Bool
     # Tab key will be replaced by this number of spaces, a number <= 0 means to not recognize tab key.
     property tab_width : Int32 = 2
+    property undo_key : UInt16 = KEY_CTRL_Z
+    property redo_key : UInt16 = KEY_CTRL_Y
 
     # Colors
     property border_color : Format
@@ -14,6 +16,7 @@ module TextUi
 
     delegate save(io: IO), to: @document
     delegate filename, to: @document
+    delegate :undo_stack_merge_interval=, to: @document
     delegate :syntax_highlighter=, to: @document
 
     Cute.signal key_typed(event : KeyEvent)
@@ -265,6 +268,12 @@ module TextUi
         @tab_width.times do
           on_key_event(KeyEvent.new(' '))
         end
+        event.accept
+      elsif event.key == @undo_key && @document.can_undo?
+        @document.undo
+        event.accept
+      elsif event.key == @redo_key && @document.can_redo?
+        @document.redo
         event.accept
       elsif is_cursor_movement?(event.key)
         @cursors.each { |cursor| handle_cursor_movement(cursor, event.key) }

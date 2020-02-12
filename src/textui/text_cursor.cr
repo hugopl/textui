@@ -7,6 +7,7 @@ module TextUi
     property col_hint : Int32
     property? insert_mode : Bool
     getter? valid : Bool
+    getter document
 
     def initialize(@document : TextDocument)
       @line = 0
@@ -61,56 +62,28 @@ module TextUi
       if key == KEY_SPACE
         chr = ' '
         key = 0
-      elsif key == KEY_ENTER
-        new_line = block.text[@col..-1]
-        block.text = block.text[0...@col]
-        @line += 1
-        @document.insert(@line, new_line)
-        @col = 0
-        event.accept
-        return
       end
 
-      if key == 0 && chr.ord != 0
-        if insert_mode? && @col < buffer.size
-          buffer = buffer.sub(@col, chr)
-        else
-          buffer = buffer.insert(@col, chr)
-        end
-        @col += 1
-        event.accept
+      if key == KEY_ENTER
+        @document.push(TextBlockBreakLineCommand.new(self))
+      elsif key == 0 && chr.ord != 0
+        @document.push(TextBlockChangeCommand.new(self, chr))
       elsif key == KEY_BACKSPACE || key == KEY_BACKSPACE2
         if @col == 0 && @line > 0
-          previous_block = @document.blocks[@line - 1]
-          @col = previous_block.size
-          previous_block.text = previous_block.text + block.text
-          @document.remove(@line)
-          @line -= 1
+          @document.push(TextBlockConcatLineCommand.new(self, TextBlockChangeCommand::Mode::Backspace))
         elsif @col != 0 && buffer.size > 0
-          buffer = String.build(buffer.size) do |str|
-            str << buffer[0...@col - 1]
-            str << buffer[@col..-1]
-          end
-          @col -= 1
+          @document.push(TextBlockChangeCommand.new(self, TextBlockChangeCommand::Mode::Backspace))
         end
-        event.accept
       elsif key == KEY_DELETE
         if @col == buffer.size && @document.blocks.size > @line + 1
-          next_line = @line + 1
-          next_block = @document.blocks[next_line]
-          buffer = buffer + next_block.text
-          @document.remove(next_line)
+          @document.push(TextBlockConcatLineCommand.new(self, TextBlockChangeCommand::Mode::Delete))
         elsif @col < buffer.size
-          buffer = String.build(buffer.size) do |str|
-            str << buffer[0...@col]
-            str << buffer[(@col + 1)..-1]
-          end
+          @document.push(TextBlockChangeCommand.new(self, TextBlockChangeCommand::Mode::Delete))
         end
-        event.accept
+      else
+        return # Event not accepted.
       end
-      block.text = buffer
-      @col_hint = @col
-      move(@line, @col) # Just to fix out of range values
+      event.accept
     end
   end
 end

@@ -60,5 +60,11 @@ module TextUi
     def clean_state?
       @clean_state_index > 0 && @clean_state_index == @index
     end
+
+    def clear
+      @stack.clear
+      @index = -1
+      @clean_state_index = -1
+    end
   end
 end
