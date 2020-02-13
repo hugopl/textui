@@ -139,13 +139,13 @@ describe TextUi::UndoStack do
     stack.merge_interval = 200
     calc = Calc.new
     stack.push(Sum.new(calc, 5))
-    sleep(0.1)
+    sleep(0.01)
     stack.push(Sum.new(calc, 6))
     stack.push(Multiply.new(calc, 2))
     stack.size.should eq(2)
     calc.value.should eq(22)
     stack.push(Sum.new(calc, 10))
-    sleep(0.25) # A timecop gem here would be nice
+    sleep(1) # A timecop gem here would be nice
     stack.push(Sum.new(calc, 100))
     stack.size.should eq(4)
     calc.value.should eq(132)

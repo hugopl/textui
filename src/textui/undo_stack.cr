@@ -29,8 +29,10 @@ module TextUi
       last_push = @last_push
       return false if @index < 0 || @merge_interval < 0 || last_push.nil?
 
-      time_lapsed = (Time.monotonic - last_push).milliseconds
-      time_lapsed < @merge_interval && @stack[@index].merge(cmd)
+      time_lapsed = (Time.monotonic - last_push).total_milliseconds
+      return @stack[@index].merge(cmd) if time_lapsed < @merge_interval
+
+      false
     end
 
     def undo : Nil
