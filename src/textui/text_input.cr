@@ -74,11 +74,9 @@ module TextUi
       elsif event.key == UndoStack.redo_key && @document.can_redo?
         @document.redo
         event.accept
-      elsif event.key == KEY_ENTER
-        return
       elsif is_cursor_movement?(event.key)
         handle_cursor_movement(event)
-      else
+      elsif event.key != KEY_ENTER
         @cursor.on_key_event(event)
       end
 

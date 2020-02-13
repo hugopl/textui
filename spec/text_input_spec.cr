@@ -41,4 +41,19 @@ describe TextUi::TextInput do
     ui.render
     Terminal.to_s.should eq("Hey ho!   \n")
   end
+
+  it "emit ENTER KEY signal" do
+    ui = init_ui(10, 1)
+    input = TextUi::TextInput.new(ui)
+    input.resize(10, 1)
+    input.focus
+
+    received = false
+    input.key_typed.on do
+      received = true
+    end
+    Terminal.inject_key_event(key: TextUi::KEY_ENTER)
+    ui.process_queued_events
+    received.should eq(true)
+  end
 end
