@@ -1,4 +1,4 @@
-## Unreleased
+## [0.1.3] - 2020-02-13
 ### Added
 - Added UndoStack and UndoCommand classes for a undo/redo implementations.
 - Added undo/redo to TextEditor.
