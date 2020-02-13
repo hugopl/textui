@@ -56,4 +56,21 @@ describe TextUi::TextInput do
     ui.process_queued_events
     received.should eq(true)
   end
+
+  it "reset cursor and undo stack when text is cleared" do
+    ui = init_ui(10, 1)
+    input = TextUi::TextInput.new(ui)
+    input.resize(10, 1)
+    input.focus
+    Terminal.inject_key_event('A')
+    ui.process_queued_events
+    input.document.can_undo?.should eq(true)
+    input.cursor.line.should eq(0)
+    input.cursor.col.should eq(1)
+
+    input.clear
+    input.cursor.line.should eq(0)
+    input.cursor.col.should eq(0)
+    input.document.can_undo?.should eq(false)
+  end
 end

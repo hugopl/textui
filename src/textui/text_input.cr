@@ -2,6 +2,8 @@ module TextUi
   class TextInput < Widget
     property place_holder = ""
     property place_holder_format = Format.new(Color::Grey15)
+    getter cursor
+    getter document : TextDocument
 
     @document = TextDocument.new
 
@@ -30,7 +32,9 @@ module TextUi
     end
 
     def text=(value : String)
-      @document.replace(0, value)
+      @document.blocks.first.text = value
+      @document.clear_undo_stack
+      @cursor.move(0, 0)
       invalidate
     end
 
@@ -39,7 +43,7 @@ module TextUi
     end
 
     def clear
-      @document.replace(0, "")
+      self.text = ""
     end
 
     private def is_cursor_movement?(key) : Bool

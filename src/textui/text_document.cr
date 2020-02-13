@@ -72,8 +72,12 @@ module TextUi
       end
       @blocks << TextBlock.new(self) if @blocks.empty?
 
-      @undo_stack.clear
+      clear_undo_stack
       reset_syntaxhighlighting
+    end
+
+    def clear_undo_stack
+      @undo_stack.clear
     end
 
     def open(filename : String)
@@ -119,10 +123,6 @@ module TextUi
       next_block.try(&.previous_block = previous_block)
 
       @blocks.delete_at(line)
-    end
-
-    def replace(line : Int32, text : String)
-      @blocks[line].text = text
     end
 
     def block?(line) : TextBlock?
