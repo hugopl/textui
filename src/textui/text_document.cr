@@ -105,7 +105,7 @@ module TextUi
       @blocks.first.text
     end
 
-    def insert(line : Int32, text : String) : Nil
+    def insert_line(line : Int32, text : String) : Nil
       previous_line = line - 1
       block = TextBlock.new(self, text, block?(previous_line), block?(line))
 
@@ -116,7 +116,7 @@ module TextUi
       highlight_block(block)
     end
 
-    def remove(line : Int32) : Nil
+    def remove_line(line : Int32) : Nil
       previous_block = block?(line - 1)
       next_block = block?(line + 1)
       previous_block.try(&.next_block = next_block)

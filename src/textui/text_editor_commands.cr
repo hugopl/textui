@@ -100,13 +100,13 @@ module TextUi
     def redo : Nil
       new_line = @old_text[@col..-1]
       block.text = @old_text[0...@col]
-      document.insert(@line + 1, new_line)
+      document.insert_line(@line + 1, new_line)
       @cursor.move(@line + 1, 0)
     end
 
     def undo : Nil
       block.text = @old_text
-      document.remove(@line + 1)
+      document.remove_line(@line + 1)
       restore_cursor
     end
   end
@@ -137,7 +137,7 @@ module TextUi
 
     def redo : Nil
       block.text = @new_text
-      document.remove(@line_to_remove)
+      document.remove_line(@line_to_remove)
       @cursor.move(@line - 1, @concat_point) if @mode == Mode::Backspace
     end
 
@@ -146,7 +146,7 @@ module TextUi
       block.text = old_text1
       old_text2 = @new_text[@concat_point..-1]
 
-      document.insert(@line_to_remove, old_text2)
+      document.insert_line(@line_to_remove, old_text2)
       restore_cursor if @mode == Mode::Backspace
     end
   end
