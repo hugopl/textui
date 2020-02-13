@@ -103,7 +103,7 @@ describe TextUi::UndoStack do
   it "has a clean state" do
     stack = TextUi::UndoStack.new
     stack.merge_interval = -1
-    stack.clean_state?.should eq(false)
+    stack.clean_state?.should eq(true)
     calc = Calc.new
     stack.push(Sum.new(calc, 1))
     stack.push(Sum.new(calc, 2))

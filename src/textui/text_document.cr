@@ -49,11 +49,10 @@ module TextUi
     @syntax_highlighter = PlainTextSyntaxHighlighter.new
     @undo_stack = UndoStack.new
 
-    delegate undo, to: @undo_stack
     delegate can_undo?, to: @undo_stack
-    delegate redo, to: @undo_stack
     delegate can_redo?, to: @undo_stack
-    delegate push, to: @undo_stack
+
+    Cute.signal clean_state_changed(clean : Bool)
 
     def initialize
       @blocks = [TextBlock.new(self)]
@@ -76,8 +75,35 @@ module TextUi
       reset_syntaxhighlighting
     end
 
+    # This should go to UndoStack class... and connect to a singal here.
+    private def emit_clean_changed_if_needed
+      clean_state_before = @undo_stack.clean_state?
+      yield
+      clean_state_changed.emit(@undo_stack.clean_state?) if @undo_stack.clean_state? != clean_state_before
+    end
+
     def clear_undo_stack
-      @undo_stack.clear
+      emit_clean_changed_if_needed do
+        @undo_stack.clear
+      end
+    end
+
+    def push(cmd : UndoCommand) : Nil
+      emit_clean_changed_if_needed do
+        @undo_stack.push(cmd)
+      end
+    end
+
+    def undo
+      emit_clean_changed_if_needed do
+        @undo_stack.undo
+      end
+    end
+
+    def redo
+      emit_clean_changed_if_needed do
+        @undo_stack.redo
+      end
     end
 
     def open(filename : String)
@@ -89,6 +115,8 @@ module TextUi
         io.write(block.text.unsafe_byte_slice(0))
         io.write_byte('\n'.ord.to_u8)
       end
+      @undo_stack.set_clean_state
+      clean_state_changed.emit(true)
     end
 
     def save(filename : String)
