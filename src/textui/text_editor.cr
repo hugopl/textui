@@ -6,8 +6,6 @@ module TextUi
     getter? word_wrap : Bool
     # Tab key will be replaced by this number of spaces, a number <= 0 means to not recognize tab key.
     property tab_width : Int32 = 2
-    property undo_key : UInt16 = KEY_CTRL_Z
-    property redo_key : UInt16 = KEY_CTRL_Y
 
     # Colors
     property border_color : Format
@@ -269,10 +267,10 @@ module TextUi
           on_key_event(KeyEvent.new(' '))
         end
         event.accept
-      elsif event.key == @undo_key && @document.can_undo?
+      elsif event.key == UndoStack.undo_key && @document.can_undo?
         @document.undo
         event.accept
-      elsif event.key == @redo_key && @document.can_redo?
+      elsif event.key == UndoStack.redo_key && @document.can_redo?
         @document.redo
         event.accept
       elsif is_cursor_movement?(event.key)

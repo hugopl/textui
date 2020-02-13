@@ -1,6 +1,8 @@
 ## Unreleased
 ### Added
 - Added UndoStack and UndoCommand classes for a undo/redo implementations.
+- Added undo/redo to TextEditor.
+- Added undo/redo to TextInput.
 
 ### Fix
 - All KEY_* constants are now u16 to match with key attribute of Event class.

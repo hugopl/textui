@@ -17,4 +17,28 @@ describe TextUi::TextInput do
     ui.render
     Terminal.to_s.should eq("?   \n")
   end
+
+  it "supports undo/redo" do
+    ui = init_ui(10, 1)
+    input = TextUi::TextInput.new(ui)
+    input.resize(10, 1)
+    input.focus
+
+    "Hey ho!".each_char do |chr|
+      Terminal.inject_key_event(chr)
+    end
+    ui.process_queued_events
+    ui.render
+    Terminal.to_s.should eq("Hey ho!   \n")
+
+    Terminal.inject_key_event(key: TextUi::KEY_CTRL_Z)
+    ui.process_queued_events
+    ui.render
+    Terminal.to_s.should eq("          \n")
+
+    Terminal.inject_key_event(key: TextUi::KEY_CTRL_Y)
+    ui.process_queued_events
+    ui.render
+    Terminal.to_s.should eq("Hey ho!   \n")
+  end
 end

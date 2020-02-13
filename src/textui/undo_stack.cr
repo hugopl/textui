@@ -9,7 +9,26 @@ module TextUi
     @clean_state_index = -1
     @last_push : Time::Span?
 
+    @@undo_key : UInt16 = KEY_CTRL_Z
+    @@redo_key : UInt16 = KEY_CTRL_Y
+
     delegate size, to: @stack
+
+    def self.undo_key
+      @@undo_key
+    end
+
+    def self.undo_key=(key)
+      @@undo_key = key
+    end
+
+    def self.redo_key
+      @@redo_key
+    end
+
+    def self.redo_key=(key)
+      @@redo_key = key
+    end
 
     def push(cmd : UndoCommand) : Nil
       cmd.redo
