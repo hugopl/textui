@@ -616,7 +616,31 @@ describe TextUi::TextEditor do
     end
   end
 
+  it "emit cursor changed signal" do
+    ui = init_ui(20, 5)
+    editor = TextUi::TextEditor.new(ui, 0, 0, 20, 5)
+    editor.focus
+    signal_received = false
+    editor.cursor_changed.on do
+      signal_received = true
+    end
+
+    Terminal.inject_key_event('A')
+    ui.process_queued_events
+    signal_received.should eq(true)
+    signal_received = false
+
+    Terminal.inject_key_event(key: TextUi::KEY_ENTER)
+    ui.process_queued_events
+    signal_received.should eq(true)
+    signal_received = false
+
+    Terminal.inject_key_event(key: TextUi::KEY_ARROW_UP)
+    ui.process_queued_events
+    signal_received.should eq(true)
+    signal_received = false
+  end
+
   pending "can have multiple cursors"
   pending "can select text with keyboard"
-  pending "can undo/redo"
 end

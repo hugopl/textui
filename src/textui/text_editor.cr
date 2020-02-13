@@ -262,6 +262,10 @@ module TextUi
     protected def on_key_event(event : KeyEvent)
       return if event.alt?
 
+      cursor = self.cursor
+      old_line = cursor.line
+      old_col = cursor.col
+
       if event.key == KEY_TAB && @tab_width > 0
         @tab_width.times do
           on_key_event(KeyEvent.new(' '))
@@ -279,6 +283,7 @@ module TextUi
         @cursors.each &.on_key_event(event)
       end
 
+      cursor_changed.emit(cursor) if @cursors.size == 1 && (old_line != cursor.line || old_col != cursor.col)
       key_typed.emit(event)
       invalidate
     end
@@ -311,7 +316,6 @@ module TextUi
       end
       cursor.col_hint = col
       cursor.move(line, col)
-      cursor_changed.emit(cursor)
     end
 
     private def line_increment_by_key(key)
