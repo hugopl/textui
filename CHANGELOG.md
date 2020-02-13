@@ -1,3 +1,7 @@
+## [0.1.4] - 2020-02-13
+### Fix
+- Fix type error on Ui.add_focus_shortcut method.
+
 ## [0.1.3] - 2020-02-13
 ### Added
 - Added UndoStack and UndoCommand classes for a undo/redo implementations.

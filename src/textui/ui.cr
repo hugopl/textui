@@ -25,7 +25,7 @@ module TextUi
     def initialize(color_mode = ColorMode::Just256Colors)
       @event = Terminal::Event.new(type: 0, mod: 0, key: 0, ch: 0, w: 0, x: 0, y: 0)
       @shutdown = false
-      @shortcuts = Hash(Int32, Widget).new
+      @shortcuts = Hash(UInt16, Widget).new
       @main_loop_running = false
       @need_rendering = false # Used to flag that we processed some events and we should render something.
       super(self)
@@ -57,7 +57,7 @@ module TextUi
       set_cursor(-1, -1)
     end
 
-    def add_focus_shortcut(key : Int32, widget : Widget)
+    def add_focus_shortcut(key : UInt16, widget : Widget)
       @shortcuts[key] = widget
     end
 

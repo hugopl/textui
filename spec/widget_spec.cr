@@ -13,6 +13,18 @@ describe TextUi::Widget do
     label.render_pending?.should eq(true)
   end
 
+  it "can focus a widget with a shortcut" do
+    ui = init_ui(4, 1)
+    label = TextUi::Label.new(ui)
+    label.resize(4, 1)
+    label.focused?.should eq(false)
+
+    ui.add_focus_shortcut(TextUi::KEY_CTRL_A, label)
+    Terminal.inject_key_event(key: TextUi::KEY_CTRL_A)
+    ui.process_queued_events
+    label.focused?.should eq(true)
+  end
+
   it "children_focused? returns true on gran...granchildren" do
     ui = init_ui(4, 1)
     box1 = TextUi::Label.new(ui)
