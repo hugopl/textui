@@ -115,8 +115,9 @@ module TextUi
         io.write(block.text.unsafe_byte_slice(0))
         io.write_byte('\n'.ord.to_u8)
       end
-      @undo_stack.set_clean_state
-      clean_state_changed.emit(true)
+      emit_clean_changed_if_needed do
+        @undo_stack.set_clean_state
+      end
     end
 
     def save(filename : String)

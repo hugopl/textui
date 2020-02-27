@@ -73,4 +73,20 @@ describe TextUi::TextDocument do
     doc.blocks[0].previous_block?.should eq(nil)
     doc.blocks[0].next_block.text.should eq("line1")
   end
+
+  it "do not send clean state changed if it didn't change" do
+    doc = TextUi::TextDocument.new
+    call_counter = 0
+    doc.clean_state_changed.on do
+      call_counter += 1
+    end
+    doc.contents = "line0\nline1\nline2\nline3"
+    call_counter.should eq(0)
+
+    buffer = IO::Memory.new(64)
+    doc.save(buffer)
+    call_counter.should eq(0)
+    doc.save(buffer)
+    call_counter.should eq(0)
+  end
 end
