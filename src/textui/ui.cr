@@ -140,5 +140,11 @@ module TextUi
       widget = @focused_widget
       widget.on_key_event(event) if widget && !event.accepted? && !widget.widget_too_small?
     end
+
+    protected def on_mouse_event(event : MouseEvent)
+      # TODO: Change this behavior and be able to change widget focus using mouse... and send mouse event only for the topmost widget clicked.
+      widget = @focused_widget
+      widget.on_mouse_event(event) if widget && !widget.widget_too_small?
+    end
   end
 end

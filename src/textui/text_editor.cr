@@ -105,7 +105,7 @@ module TextUi
 
     private def map_line_col_to_viewport(line, col)
       border_width = calc_border_width
-      return [col + border_width, line] unless @word_wrap
+      return {col + border_width, line} unless @word_wrap
 
       y = 0
       block_heights.each_with_index do |height, i|
@@ -127,7 +127,7 @@ module TextUi
         end
       end
 
-      [x + border_width, y]
+      {x + border_width, y}
     end
 
     private def map_viewport_to_line_col(x, y)
@@ -140,7 +140,7 @@ module TextUi
         line += 1
       end
 
-      return [-1, -1] if line >= @document.blocks.size
+      return {-1, -1} if line >= @document.blocks.size
 
       text = @document.blocks[line].text
       border_width = calc_border_width
@@ -154,7 +154,7 @@ module TextUi
       end
 
       col = offset + x - border_width
-      [line, col]
+      {line, col}
     end
 
     # FIXME: We should store the sum of block heights to let algorithms using this to be O(1) instead of O(n).
@@ -259,10 +259,19 @@ module TextUi
       end
     end
 
+    protected def on_mouse_event(event : MouseEvent)
+      return if event.release?
+
+      x = event.x - absolute_x
+      y = event.y - absolute_y
+      cursor.move(*map_viewport_to_line_col(x, y))
+      invalidate
+    end
+
     protected def on_key_event(event : KeyEvent)
       return if event.alt?
 
-      cursor = self.cursor
+      main_cursor = self.cursor
       old_line = cursor.line
       old_col = cursor.col
 
@@ -283,7 +292,7 @@ module TextUi
         @cursors.each &.on_key_event(event)
       end
 
-      cursor_changed.emit(cursor) if @cursors.size == 1 && (old_line != cursor.line || old_col != cursor.col)
+      cursor_changed.emit(main_cursor) if @cursors.size == 1 && (old_line != main_cursor.line || old_col != main_cursor.col)
       key_typed.emit(event)
       invalidate
     end

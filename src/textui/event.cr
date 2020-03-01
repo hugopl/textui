@@ -29,27 +29,27 @@ module TextUi
     end
 
     def left?
-      @key == TB_KEY_MOUSE_LEFT
+      @key == KEY_MOUSE_LEFT
     end
 
     def right?
-      @key == TB_KEY_MOUSE_RIGHT
+      @key == KEY_MOUSE_RIGHT
     end
 
     def middle?
-      @key == TB_KEY_MOUSE_MIDDLE
+      @key == KEY_MOUSE_MIDDLE
     end
 
     def release?
-      @key == TB_KEY_MOUSE_RELEASE
+      @key == KEY_MOUSE_RELEASE
     end
 
     def wheel_up?
-      @key == TB_KEY_MOUSE_WHEEL_UP
+      @key == KEY_MOUSE_WHEEL_UP
     end
 
     def wheel_down?
-      @key == TB_KEY_MOUSE_WHEEL_DOWN
+      @key == KEY_MOUSE_WHEEL_DOWN
     end
   end
 end
