@@ -230,6 +230,9 @@ module TextUi
     protected def on_key_event(event : KeyEvent)
     end
 
+    protected def on_mouse_event(event : MouseEvent)
+    end
+
     def invalidate
       @render_pending = true
       @children.each(&.invalidate)

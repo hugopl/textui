@@ -1,3 +1,7 @@
+## Unreleased
+### Added
+- Add support to mouse events.
+
 ## [0.1.4] - 2020-02-13
 ### Fix
 - Fix type error on Ui.add_focus_shortcut method.

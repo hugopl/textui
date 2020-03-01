@@ -16,6 +16,7 @@ module TextUi
         raise TerminalError.new("Pipe trap error.")
       end
 
+      TermboxBindings.tb_select_input_mode(TermboxBindings::INPUT_ALT | TermboxBindings::INPUT_MOUSE)
       TermboxBindings.tb_select_output_mode(color_mode)
       @@initiated = true
     end

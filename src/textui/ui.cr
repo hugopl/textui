@@ -114,9 +114,9 @@ module TextUi
 
     private def handle_event
       case @event.type
-      when Terminal::EVENT_KEY then on_key_event(KeyEvent.new(@event.ch.chr, @event.key, @event.mod))
-      when Terminal::EVENT_MOUSE
-      when Terminal::EVENT_RESIZE then handle_resize(@event.w, @event.x)
+      when Terminal::EVENT_KEY    then on_key_event(KeyEvent.new(@event.ch.chr, @event.key, @event.mod))
+      when Terminal::EVENT_MOUSE  then on_mouse_event(MouseEvent.new(@event.x, @event.y, @event.key))
+      when Terminal::EVENT_RESIZE then handle_resize(@event.w, @event.h)
       end
       @need_rendering = true
     end
