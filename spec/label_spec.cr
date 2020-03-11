@@ -20,4 +20,11 @@ describe TextUi::Label do
     ui.render
     Terminal.to_s.should eq("   Hey    \n")
   end
+
+  it "new labels has the size of their contents, ignoring \n" do
+    ui = init_ui(10, 1)
+    label = TextUi::Label.new(ui, "Hey")
+    label.width.should eq(3)
+    label.height.should eq(1)
+  end
 end
