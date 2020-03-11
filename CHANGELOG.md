@@ -1,6 +1,7 @@
 ## Unreleased
 ### Added
 - Add support to mouse events.
+- Focus widget on mouse click.
 
 ## [0.1.4] - 2020-02-13
 ### Fix

@@ -77,7 +77,7 @@ module TextUi
       event = Event.new
       event.type = EVENT_RESIZE
       event.w = width
-      event.x = height
+      event.h = height
       @@events << event
     end
 
@@ -89,12 +89,23 @@ module TextUi
       inject_key_event(0, chr.ord)
     end
 
-    def self.inject_key_event(key = 0, ch = 0) : Nil
+    def self.inject_key_event(key : UInt16 = 0, ch = 0) : Nil
       ev = Event.new
       ev.type = EVENT_KEY
       ev.ch = ch
       ev.key = key
       @@events << ev
+    end
+
+    def self.inject_mouse_event(x : Int32, y : Int32, key : UInt16 = KEY_MOUSE_LEFT)
+      ev = Event.new
+      ev.type = EVENT_MOUSE
+      ev.x = x
+      ev.y = y
+      ev.key = key
+      @@events << ev
+
+      inject_mouse_event(x, y, KEY_MOUSE_RELEASE) unless key == KEY_MOUSE_RELEASE
     end
 
     def self.to_s(colors = false)
@@ -126,6 +137,7 @@ end
 alias Terminal = TextUi::Terminal
 
 def init_ui(width = 20, height = 4)
+  Terminal.clear_events
   Terminal.resize(width, height)
   ui = TextUi::Ui.new
   ui.process_events # Process the resize event.

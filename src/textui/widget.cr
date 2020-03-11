@@ -61,6 +61,27 @@ module TextUi
       invalidate
     end
 
+    # Finds the topmost widget at x/y coordinates, x/y are in absolute coordinates.
+    def find(x, y, dbg = 0) : Widget?
+      return nil unless contains?(x, y)
+
+      children_hit = nil
+      children.each do |widget|
+        children_hit = widget.find(x, y, dbg + 1)
+        break if children_hit
+      end
+      children_hit || self
+    end
+
+    # x/y are in absolute coordinates
+    def contains?(x, y)
+      abs_x = absolute_x
+      abs_y = absolute_y
+
+      abs_x <= x && x < (abs_x + width) &&
+        abs_y <= y && y < (abs_y + height)
+    end
+
     def children_focused?
       children.any? do |child|
         child.focused? || child.children_focused?

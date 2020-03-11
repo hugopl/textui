@@ -137,4 +137,30 @@ describe TextUi::Widget do
       Terminal.cursor.should eq({x: -1, y: -1})
     end
   end
+
+  context "on mouse event" do
+    it "focus widget then send the event" do
+      ui = init_ui(18, 11)
+      box1 = TextUi::Box.new(ui, 2, 2, 16, 9, "box1")
+      box2 = TextUi::Box.new(box1, 1, 1, 14, 7, "box2")
+      box3 = TextUi::Box.new(box2, 1, 1, 12, 5, "box3")
+      label = TextUi::Label.new(box3, 1, 1, "Hey")
+
+      Terminal.inject_mouse_event(2, 2)
+      ui.process_queued_events
+      box1.focused?.should eq(true)
+
+      Terminal.inject_mouse_event(3, 3)
+      ui.process_queued_events
+      box2.focused?.should eq(true)
+
+      Terminal.inject_mouse_event(4, 4)
+      ui.process_queued_events
+      box3.focused?.should eq(true)
+
+      Terminal.inject_mouse_event(5, 5)
+      ui.process_queued_events
+      label.focused?.should eq(true)
+    end
+  end
 end
