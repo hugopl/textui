@@ -1,11 +1,27 @@
-## Unreleased
+## [0.2.1] - 2020-03-15
 ### Added
-- Add support to mouse events.
-- Focus widget on mouse click.
+- Added mouse support to List widget.
 
-### Breaking changes
+### Fix
+- List#selected_item doesn't return the last item when no item is selected.
+
+### Breaking changes (yeah, on a patch release)
 - Removed Widget#clear_text
 - Widget#erase renamed to Widget#clear_widget and visibility reduced to protected.
+- Box widget now delegate the focus to their first child.
+
+## [0.2.0] - 2020-03-11
+### Added
+- Add basic support to mouse events.
+- Focus widget on mouse click.
+- Added clean_state_changed to TextDocument.
+
+### Fix
+- Fix cursor_changed signal from TextEditor.
+
+### Breaking changes
+- Rename TextDocument#insert to TextDocument#insert_line
+- Rename TextDocument#remove to TextDocument#remove_line
 
 ## [0.1.4] - 2020-02-13
 ### Fix
