@@ -31,6 +31,11 @@ module TextUi
 
       @selected_index = item_idx
       self.cursor = item_idx
+
+      # TODO: Change this to signals
+      on_select = @on_select
+      on_select.call(@items[@selected_index]) if on_select
+
       invalidate
     end
 
@@ -89,9 +94,7 @@ module TextUi
       when KEY_ARROW_UP   then @cursor -= 1
       when KEY_ARROW_DOWN then @cursor += 1
       when KEY_ENTER
-        @selected_index = @cursor
-        on_select = @on_select
-        on_select.call(@items[@selected_index]) if on_select
+        self.select(@cursor)
       else
         return
       end
@@ -99,6 +102,16 @@ module TextUi
       @cursor = @cursor.clamp(0, @items.size - 1)
       event.accept
       invalidate
+    end
+
+    protected def on_mouse_event(event)
+      return if @items.empty? || event.release?
+
+      y = event.y - absolute_y
+      hit = @viewport + y
+      return if hit >= @items.size
+
+      self.select(hit)
     end
 
     private def adjust_viewport

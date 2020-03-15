@@ -186,4 +186,25 @@ describe TextUi::List do
     list = TextUi::List.new(ui, 0, 0, %w(one two))
     list.selected_item.should eq(nil)
   end
+
+  context "when receiving mouse events" do
+    it "select the list item" do
+      ui = init_ui(6, 5)
+      list = TextUi::List.new(ui, 1, 1, %w(one two))
+      list.resize(5, 4)
+      list.selected_index.should eq(-1)
+
+      Terminal.inject_mouse_event(3, 3)
+      ui.process_queued_events
+      list.selected_index.should eq(-1)
+
+      Terminal.inject_mouse_event(3, 2)
+      ui.process_queued_events
+      list.selected_index.should eq(1)
+
+      Terminal.inject_mouse_event(3, 1)
+      ui.process_queued_events
+      list.selected_index.should eq(0)
+    end
+  end
 end
