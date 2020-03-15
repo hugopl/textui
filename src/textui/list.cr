@@ -83,7 +83,6 @@ module TextUi
     end
 
     protected def on_key_event(event : KeyEvent)
-      super
       return if @items.empty?
 
       case event.key

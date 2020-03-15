@@ -149,7 +149,6 @@ module TextUi
     protected def on_key_event(event : KeyEvent)
       return if @rows.empty? || @column_widths.empty?
 
-      super
       case event.key
       when KEY_ARROW_UP    then @cursor_y -= 1
       when KEY_ARROW_DOWN  then @cursor_y += 1
