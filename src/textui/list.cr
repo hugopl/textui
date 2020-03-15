@@ -35,6 +35,8 @@ module TextUi
     end
 
     def selected_item
+      return nil if @selected_index < 0
+
       @items[@selected_index]?
     end
 

@@ -180,4 +180,10 @@ describe TextUi::List do
                             "     \n" \
                             "     \n")
   end
+
+  it "does not return the last item when no items are selected" do
+    ui = init_ui(4, 4)
+    list = TextUi::List.new(ui, 0, 0, %w(one two))
+    list.selected_item.should eq(nil)
+  end
 end
