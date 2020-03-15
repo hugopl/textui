@@ -52,7 +52,7 @@ module TextUi
     end
 
     def render
-      erase
+      clear_widget
       return if rows.empty?
 
       adjust_viewport

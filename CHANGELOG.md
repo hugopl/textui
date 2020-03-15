@@ -3,6 +3,10 @@
 - Add support to mouse events.
 - Focus widget on mouse click.
 
+### Breaking changes
+- Removed Widget#clear_text
+- Widget#erase renamed to Widget#clear_widget and visibility reduced to protected.
+
 ## [0.1.4] - 2020-02-13
 ### Fix
 - Fix type error on Ui.add_focus_shortcut method.

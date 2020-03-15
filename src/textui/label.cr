@@ -23,7 +23,7 @@ module TextUi
     end
 
     def render
-      erase
+      clear_widget
 
       # FIXME: This only works when the text has a single line.
       case @alignment

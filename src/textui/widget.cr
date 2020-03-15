@@ -88,25 +88,7 @@ module TextUi
       end
     end
 
-    def clear_text(x, y, text : String, format : Format = @default_format, stop_on_lf = false)
-      each_char_pos(x, y, text) do |xx, yy, chr|
-        if chr == '\n'
-          break if stop_on_lf
-          next
-        end
-        Terminal.change_cell(xx, yy, ' ', format)
-      end
-    end
-
-    def clear_text(x, y, n : Int32, format : Format = @default_format, stop_on_lf = false)
-      x += absolute_x
-      y += absolute_y
-      n.times do |i|
-        Terminal.change_cell(x + i, y, ' ', format)
-      end
-    end
-
-    def erase
+    protected def clear_widget
       height.times do |y|
         clear_line(y)
       end
