@@ -12,7 +12,9 @@ module TextUi
 
       @resized_con = ui.resized.on { repositionate(width, height) }
       @focus_changed_con = ui.focus_changed.on do |_old_widget, new_widget|
-        dismiss if new_widget != self
+        next if new_widget.nil?
+
+        dismiss if new_widget != self && !children?(new_widget)
       end
     end
 
