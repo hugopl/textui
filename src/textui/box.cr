@@ -45,6 +45,10 @@ module TextUi
     end
 
     private def focus_changed(old_focus : Widget?, new_focus : Widget?)
+      if new_focus == self && children.any?
+        ui.focus(children.first)
+        return
+      end
       invalidate if (!old_focus.nil? && children?(old_focus)) || (!new_focus.nil? && children?(new_focus))
     end
 
