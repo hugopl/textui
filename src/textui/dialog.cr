@@ -7,7 +7,12 @@ module TextUi
     @resized_con : Cute::ConnectionHandle = 0
     @focus_changed_con : Cute::ConnectionHandle = 0
 
-    def initialize(parent : Widget, title : String = "")
+    enum Placement
+      Auto
+      Manual
+    end
+
+    def initialize(parent : Widget, title : String = "", @placement = Placement::Auto)
       super(parent, 0, 0, title)
 
       @resized_con = ui.resized.on { repositionate(width, height) }
@@ -22,7 +27,7 @@ module TextUi
       width = {min_width, width}.max
       super(width, height)
 
-      repositionate(width, height)
+      repositionate(width, height) if @placement.auto?
     end
 
     def min_width
@@ -39,6 +44,7 @@ module TextUi
 
     def dismiss
       destroy
+      invalidate
       parent.invalidate
       ui.resized.disconnect(@resized_con)
       ui.focus_changed.disconnect(@focus_changed_con)

@@ -78,6 +78,9 @@ module TextUi
     end
 
     def render
+      # A invalidate call to Ui root widget clear the terminal
+      Terminal.clear if render_pending?
+
       @need_rendering = false
       render_children
       widget = @focused_widget
@@ -124,7 +127,6 @@ module TextUi
     private def handle_resize(width, height)
       self.width = width
       self.height = height
-      Terminal.clear
       invalidate
       self.resized.emit(width, height)
     end

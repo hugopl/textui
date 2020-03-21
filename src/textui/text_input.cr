@@ -10,8 +10,8 @@ module TextUi
     Cute.signal text_changed(old_text : String, new_text : String)
     Cute.signal key_typed(event : KeyEvent)
 
-    def initialize(parent : Widget)
-      super
+    def initialize(parent : Widget, x = 0, y = 0)
+      super(parent, x, y)
       @cursor = TextCursor.new(@document)
     end
 
