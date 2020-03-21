@@ -36,10 +36,11 @@ module TextUi
     def self.present
     end
 
-    def self.clear
+    def self.clear(chr : Char = ' ')
+      cell = Cell.new(chr)
       @@cells.clear
       height.times do
-        @@cells << Array(Cell).new(width, Cell.new)
+        @@cells << Array(Cell).new(width, cell)
       end
     end
 

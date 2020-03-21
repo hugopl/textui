@@ -80,6 +80,7 @@ module TextUi
       render_children
       widget = @focused_widget
       widget.render_cursor if widget && !widget.widget_too_small?
+      self.render_pending = false
     end
 
     def main_loop
