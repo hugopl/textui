@@ -10,12 +10,13 @@ module TextUi
 
     property alignment = Alignment::Left
 
-    def initialize(parent, @text : String = "")
-      super(parent, 0, 0, @text.size, 1)
+    def initialize(parent, text : String = "")
+      initialize(parent, 0, 0, text)
     end
 
     def initialize(parent, x, y, @text : String = "")
       super(parent, x, y, @text.size, 1)
+      self.focusable = false
     end
 
     def text=(@text)

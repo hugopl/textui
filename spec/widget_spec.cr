@@ -21,6 +21,7 @@ describe TextUi::Widget do
   it "can focus a widget with a shortcut" do
     ui = init_ui(4, 1)
     label = TextUi::Label.new(ui)
+    label.focusable = true
     label.resize(4, 1)
     label.focused?.should eq(false)
 
@@ -32,16 +33,16 @@ describe TextUi::Widget do
 
   it "children_focused? returns true on gran...granchildren" do
     ui = init_ui(4, 1)
-    box1 = TextUi::Label.new(ui)
-    box2 = TextUi::Label.new(box1)
-    box3 = TextUi::Label.new(box2)
-    box4 = TextUi::Label.new(box3)
-    box4.focus
+    wdg1 = BlankWidget.new(ui)
+    wdg2 = BlankWidget.new(wdg1)
+    wdg3 = BlankWidget.new(wdg2)
+    wdg4 = BlankWidget.new(wdg3)
+    wdg4.focus
 
     ui.children_focused?.should eq(true)
-    box1.children_focused?.should eq(true)
-    box2.children_focused?.should eq(true)
-    box3.children_focused?.should eq(true)
+    wdg1.children_focused?.should eq(true)
+    wdg2.children_focused?.should eq(true)
+    wdg3.children_focused?.should eq(true)
   end
 
   context "when printing strings" do
@@ -150,6 +151,7 @@ describe TextUi::Widget do
       widget2 = BlankWidget.new(widget1, 1, 1, 14, 7)
       widget3 = BlankWidget.new(widget2, 1, 1, 12, 5)
       label = TextUi::Label.new(widget3, 1, 1, "Hey")
+      label.focusable = true
 
       Terminal.inject_mouse_event(2, 2)
       ui.process_queued_events

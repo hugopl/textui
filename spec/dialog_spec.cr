@@ -4,6 +4,7 @@ describe TextUi::Dialog do
   it "closes if a non-child widget get focus" do
     ui = init_ui(10, 4)
     label = TextUi::Label.new(ui, "Hey")
+    label.focusable = true
     dlg = TextUi::Dialog.new(ui, "Dlg!", TextUi::Dialog::Placement::Manual)
     dlg.move(0, 1)
     dlg.resize(10, 3)

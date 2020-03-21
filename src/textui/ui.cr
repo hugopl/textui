@@ -43,6 +43,8 @@ module TextUi
     end
 
     def focus(widget : Widget?) : Nil
+      return if widget && !widget.focusable?
+
       old_widget = @focused_widget
       unless old_widget.nil?
         old_widget.focused = false
@@ -145,7 +147,7 @@ module TextUi
 
     protected def on_mouse_event(event : MouseEvent)
       widget = event.release? ? @focused_widget : find(event.x, event.y)
-      if widget && !widget.widget_too_small?
+      if widget && !widget.widget_too_small? && widget.focusable?
         focus(widget)
         widget.on_mouse_event(event)
       end

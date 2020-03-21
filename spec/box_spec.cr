@@ -7,6 +7,7 @@ describe Box do
     box2 = TextUi::Box.new(box1, 1, 1, 14, 7, "Box 2")
     box3 = TextUi::Box.new(box2, 1, 1, 12, 5, "Box 3")
     label = TextUi::Label.new(box3, 1, 1, "Hey")
+    label.focusable = true
 
     Terminal.inject_mouse_event(2, 2)
     ui.process_queued_events

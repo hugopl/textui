@@ -5,8 +5,9 @@ module TextUi
     property width
     property height
     property default_format : Format
-    getter? visible : Bool
-    property? focused : Bool
+    getter? visible : Bool = true
+    property? focused : Bool = false
+    property? focusable : Bool = true
 
     getter children
     getter parent
@@ -15,8 +16,6 @@ module TextUi
     def initialize(@parent : Widget, @x = 0, @y = 0, @width = 1, @height = 1)
       @default_format = Format.new(Color::Silver)
       @children = [] of Widget
-      @focused = false
-      @visible = true
       @render_pending = true
       @parent << self if @parent != self
     end
