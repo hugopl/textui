@@ -26,7 +26,6 @@ module TextUi
       @event = Terminal::Event.new(type: 0, mod: 0, key: 0, ch: 0, w: 0, x: 0, y: 0)
       @shutdown = false
       @main_loop_running = false
-      @need_rendering = false # Used to flag that we processed some events and we should render something.
       super(self)
 
       Terminal.init(color_mode)
@@ -78,7 +77,6 @@ module TextUi
       # A invalidate call to Ui root widget clear the terminal
       Terminal.clear if render_pending?
 
-      @need_rendering = false
       render_children
       widget = @focused_widget
       widget.render_cursor if widget && !widget.widget_too_small?
@@ -118,7 +116,6 @@ module TextUi
       when Terminal::EVENT_MOUSE  then on_mouse_event(MouseEvent.new(@event.x, @event.y, @event.key))
       when Terminal::EVENT_RESIZE then handle_resize(@event.w, @event.h)
       end
-      @need_rendering = true
     end
 
     private def handle_resize(width, height)
