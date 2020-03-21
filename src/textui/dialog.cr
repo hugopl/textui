@@ -16,11 +16,6 @@ module TextUi
       super(parent, 0, 0, title)
 
       @resized_con = ui.resized.on { repositionate(width, height) }
-      @focus_changed_con = ui.focus_changed.on do |_old_widget, new_widget|
-        next if new_widget.nil?
-
-        dismiss if new_widget != self && !children?(new_widget)
-      end
     end
 
     def resize(width, height)
@@ -32,6 +27,16 @@ module TextUi
 
     def min_width
       @title.size + 6
+    end
+
+    def close_when_lose_focus
+      return unless @focus_changed_con.zero?
+
+      @focus_changed_con = ui.focus_changed.on do |_old_widget, new_widget|
+        next if new_widget.nil?
+
+        dismiss if new_widget != self && !children?(new_widget)
+      end
     end
 
     private def repositionate(width, height)

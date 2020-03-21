@@ -18,6 +18,19 @@ describe TextUi::Dialog do
                             "│        │\n" \
                             "╰────────╯\n")
 
+    # nothing changes... yet.
+    label.focus
+    ui.children.size.should eq(2)
+    label.focused?.should eq(true)
+    ui.render
+    Terminal.to_s.should eq("Hey       \n" \
+                            "╭─ Dlg! ─╮\n" \
+                            "│        │\n" \
+                            "╰────────╯\n")
+
+    # focus lost, close dialog!
+    dlg.close_when_lose_focus
+    dlg.focus
     label.focus
     ui.children.size.should eq(1)
     label.focused?.should eq(true)
