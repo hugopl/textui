@@ -136,7 +136,7 @@ module TextUi
     end
 
     def inspect(io : IO)
-      io << "<Box title=#{@title.inspect} x=#{absolute_x} y=#{absolute_x} width=#{width} height=#{height}>"
+      io << "<Box title=#{@title.inspect} x=#{absolute_x} y=#{absolute_y} width=#{width} height=#{height}>"
     end
   end
 end
