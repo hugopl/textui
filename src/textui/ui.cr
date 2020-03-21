@@ -25,7 +25,6 @@ module TextUi
     def initialize(color_mode = ColorMode::Just256Colors)
       @event = Terminal::Event.new(type: 0, mod: 0, key: 0, ch: 0, w: 0, x: 0, y: 0)
       @shutdown = false
-      @shortcuts = Hash(UInt16, Widget).new
       @main_loop_running = false
       @need_rendering = false # Used to flag that we processed some events and we should render something.
       super(self)
@@ -57,10 +56,6 @@ module TextUi
       end
       focus_changed.emit(old_widget, widget)
       set_cursor(-1, -1)
-    end
-
-    def add_focus_shortcut(key : UInt16, widget : Widget)
-      @shortcuts[key] = widget
     end
 
     def absolute_x
@@ -134,12 +129,6 @@ module TextUi
     end
 
     protected def on_key_event(event : KeyEvent)
-      widget = @shortcuts[event.key]?
-      if widget
-        focus(widget)
-        return
-      end
-
       key_typed.emit(event)
       widget = @focused_widget
       widget.on_key_event(event) if widget && !event.accepted? && !widget.widget_too_small?
