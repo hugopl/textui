@@ -1,8 +1,12 @@
+## Unreleased
+### Fixed
+- Fix warnings on Crystal 0.34.0.
+
 ## [0.2.1] - 2020-03-15
 ### Added
 - Added mouse support to List widget.
 
-### Fix
+### Fixed
 - List#selected_item doesn't return the last item when no item is selected.
 
 ### Breaking changes (yeah, on a patch release)
@@ -16,7 +20,7 @@
 - Focus widget on mouse click.
 - Added clean_state_changed to TextDocument.
 
-### Fix
+### Fixed
 - Fix cursor_changed signal from TextEditor.
 
 ### Breaking changes
@@ -24,7 +28,7 @@
 - Rename TextDocument#remove to TextDocument#remove_line
 
 ## [0.1.4] - 2020-02-13
-### Fix
+### Fixed
 - Fix type error on Ui.add_focus_shortcut method.
 
 ## [0.1.3] - 2020-02-13
@@ -33,15 +37,15 @@
 - Added undo/redo to TextEditor.
 - Added undo/redo to TextInput.
 
-### Fix
+### Fixed
 - All KEY_* constants are now u16 to match with key attribute of Event class.
 
 ## [0.1.2] - 2020-02-05
-### Fix
+### Fixed
 - Fix Widget#children_focused? to return true on grandchildren.
 
 ## [0.1.1] - 2020-02-02
-### Fix
+### Fixed
 - Remove TextDocument#filename, it was moved to TextEditor#filename.
 - Clear screen garbage when rendering a list widget.
 - Fix crash on table widget when calling setData without calling clear before.

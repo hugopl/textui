@@ -322,6 +322,8 @@ module TextUi
       when KEY_ARROW_UP, KEY_ARROW_DOWN, KEY_PGUP, KEY_PGDN
         handle_line_change(cursor, key)
         return
+      else
+        return
       end
       cursor.col_hint = col
       cursor.move(line, col)

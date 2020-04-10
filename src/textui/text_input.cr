@@ -62,6 +62,8 @@ module TextUi
       when KEY_ARROW_RIGHT then col += 1
       when KEY_END         then col = text.size
       when KEY_HOME        then col = 0
+      else
+        return
       end
 
       if col != @cursor.col
