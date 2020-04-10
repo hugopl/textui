@@ -1,6 +1,16 @@
 ## Unreleased
+### Added
+- Widgets can refuse to be focusable.
+- If UI root widget is invalidated, all screen is cleared.
+- Compile our own copy of termbox C library.
+
 ### Fixed
 - Fix warnings on Crystal 0.34.0.
+- Fix some rendering issues on Dialog widget.
+
+### Changed
+- Remove Ui#add_focus_shortcut from API.
+- Dialog close when focus is lost is now optimal.
 
 ## [0.2.1] - 2020-03-15
 ### Added
@@ -9,7 +19,7 @@
 ### Fixed
 - List#selected_item doesn't return the last item when no item is selected.
 
-### Breaking changes (yeah, on a patch release)
+### Changed
 - Removed Widget#clear_text
 - Widget#erase renamed to Widget#clear_widget and visibility reduced to protected.
 - Box widget now delegate the focus to their first child.
