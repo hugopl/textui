@@ -1,4 +1,7 @@
-## Unreleased
+## [0.3.1] - 2020-04-10
+- Fix termbox compilation.
+
+## [0.3.0] - 2020-04-10
 ### Added
 - Widgets can refuse to be focusable.
 - If UI root widget is invalidated, all screen is cleared.

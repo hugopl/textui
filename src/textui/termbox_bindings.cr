@@ -1,4 +1,4 @@
-@[Link(ldflags: "#{__DIR__}/../../build/termbox/build/src/libtermbox.a")]
+@[Link(ldflags: "#{__DIR__}/../../build/termbox-1.1.2/build/src/libtermbox.a")]
 lib TermboxBindings
   # Error codes
   E_UNSUPPORTED_TERMINAL = -1
