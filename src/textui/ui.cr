@@ -81,17 +81,28 @@ module TextUi
       widget = @focused_widget
       widget.render_cursor if widget && !widget.widget_too_small?
       self.render_pending = false
+      Terminal.present
     end
 
     def main_loop
+      main_loop(polling: 0) do
+      end
+    end
+
+    def main_loop(polling = 250)
       @main_loop_running = true
       handle_resize(Terminal.width, Terminal.height)
       loop do
         process_queued_events
         render
-        Terminal.present
-        process_events
 
+        if polling.zero?
+          process_events
+        else
+          while !peek_event(polling)
+            yield
+          end
+        end
         break if @shutdown
       end
     ensure
@@ -109,6 +120,12 @@ module TextUi
     def process_events
       Terminal.poll_event(pointerof(@event))
       handle_event
+    end
+
+    def peek_event(timeout) : Bool
+      Terminal.peek_event(pointerof(@event), timeout).tap do
+        handle_event
+      end
     end
 
     private def handle_event
