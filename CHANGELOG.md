@@ -1,4 +1,11 @@
+## [0.3.2] - 2021-03-22
+### Fixed
+- Crystal 1.0.0 compatibility.
+### Added
+- Allow to use pooling on termbox mainloop, so it's possible to call things like `Fiber.yield`.
+
 ## [0.3.1] - 2020-04-10
+### Fixed
 - Fix termbox compilation.
 
 ## [0.3.0] - 2020-04-10
