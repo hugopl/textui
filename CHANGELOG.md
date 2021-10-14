@@ -1,3 +1,7 @@
+## [0.3.3] - 2021-10-14
+### Fixed
+- Fix compilation when MAKEFLAGS environment variable has -jn, with n > 1. (#1)
+
 ## [0.3.2] - 2021-03-22
 ### Fixed
 - Crystal 1.0.0 compatibility.
