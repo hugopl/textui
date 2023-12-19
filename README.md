@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/hugopl/textui.svg?branch=master)](https://travis-ci.org/hugopl/textui)
 
+# Archived
+
+Nowadays I use [Crystal GTK4](https://hugopl.github.io/gtk4.cr) to write keyboard friendly GUI applications, so I don't have any plans on work on this anymore.
+
 # TextUI
 
 A simple [Crystal](https://https://crystal-lang.org/) UI framework for terminal interfaces backed by [termbox](https://github.com/nsf/termbox).
